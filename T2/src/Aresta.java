@@ -1,9 +1,11 @@
 public class Aresta {
     private Integer peso;
-    private Vertice vertice;
+    private Vertice vertice1;
+    private Vertice vertice2;
 
-    public Aresta(Vertice vertice, Integer peso) {
-        this.vertice = vertice;
+    public Aresta(Vertice vertice1, Vertice vertice2, Integer peso) {
+        this.vertice1 = vertice1;
+        this.vertice2 = vertice2;
         this.peso = peso;
     }
 
@@ -11,15 +13,19 @@ public class Aresta {
         return peso;
     }
 
-    public Vertice getVertice() {
-        return this.vertice;
+    public Vertice getVertice1() {
+        return vertice1;
     }
 
-    public Integer getInfoVertice() {
-        return this.vertice.getInfo();
+    public void setVertice1(Vertice vertice1) {
+        this.vertice1 = vertice1;
     }
 
-    public void setVerticeVisited(boolean isVisited) {
-        this.vertice.setVisited(isVisited);
+    public Vertice getVertice2() {
+        return vertice2;
+    }
+
+    public void setVertice2(Vertice vertice2) {
+        this.vertice2 = vertice2;
     }
 }

@@ -13,4 +13,10 @@ public class Grafo {
     public void addVertices(Vertice vertice) {
         this.vertices.add(vertice);
     }
+
+    public void resetVisited() {
+        for(Vertice v: this.vertices) {
+            v.setVisited(false);
+        }
+    }
 }
