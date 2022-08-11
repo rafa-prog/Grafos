@@ -22,6 +22,21 @@ public class Grafo {
         return v;
     }
 
+    public Aresta extractMin(Vertice v) {
+        Aresta menor = v.getArestas().get(0);
+
+        for(Aresta as : v.getArestas()) {
+            if(as.getPeso() <= menor.getPeso()) {
+                menor = as;
+            }
+            as.getVertice().setDistancia(v.getDistancia() + as.getPeso());
+        }
+
+        menor.getVertice().setCor('p');
+
+        return menor;
+    }
+
     public void addVertices(Vertice vertice) {
         this.vertices.add(vertice);
     }
@@ -30,42 +45,27 @@ public class Grafo {
         this.vertices.get(0).setDistancia(0);
         this.vertices.get(0).setCor('p');
 
-        System.out.println("Atribuindo d=0, cor=p para source=" + this.vertices.get(0).getInfo());
+        List<Vertice> q = vertices;
+        List<Aresta> s = new ArrayList<Aresta>();
 
-        Integer relax = 200;
-        Integer total = 0;
+        while(!q.isEmpty()) {
+            if(q.get(0).getCor() == 'b') {  
+                q.remove(0);
+                continue;
+            }
 
-        if(RelaxType == "maior") {
-            relax = 1;
-        }
+            s.add(this.extractMin(q.get(0)));
+            q.get(0).setCor('p');
 
-        Vertice pos = null;
-
-        for(Vertice vs : this.vertices) {
-            List<Aresta> q = vs.getArestas();
-            System.out.println("Arestas a partir de: " + vs.getInfo());
-            for(Aresta as : q) {
-                System.out.println("v: " + as.getVertice2().getInfo() + ", end: " + as.getVertice2());
-                if(as.getVertice2().getCor() != 'b') {
-                    
-                }
-                if(RelaxType == "maior" && as.getPeso() >= relax) {
-                    relax = as.getPeso();
-                    pos = as.getVertice2();
-                }
-
-                if(RelaxType == "menor" && as.getPeso() <= relax) {
-                    relax = as.getPeso();
-                    pos = as.getVertice2();
+            for(Aresta as : q.get(0).getArestas()) {
+                if(as.getVertice().getDistancia() > q.get(0).getDistancia() + as.getPeso()) {
+                    as.getVertice().setDistancia(q.get(0).getDistancia() + as.getPeso());
                 }
             }
 
-            total += relax;
-            System.out.println("maior: " + relax + "v: " + pos.getInfo() + ", total: " + total);
+            q.remove(0);
         }
-        
 
-        
-
+        System.out.println("caminho menor: " + s.get(s.size() - 1).getVertice().getDistancia());
     }
 }

@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class App {
+public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
@@ -36,13 +36,12 @@ public class App {
                 g.addVertices(v2);
             }
 
-            v1.addArestas(new Aresta(v1, v2, w));
-            v2.addArestas(new Aresta(v2, v1, w));
+            v1.addArestas(new Aresta(v2, w));
+            v2.addArestas(new Aresta(v1, w));
         }
 
         scanner.close();
-
-        List<Aresta> arestas = new ArrayList<Aresta>();
+        
         g.Dijkstra("maior");
         //g.Dijkstra("menor");
     }
