@@ -21,12 +21,7 @@ public class App {
             Vertice v2 = null;
 
             if(vIntegers.contains(u)) {
-                for(Vertice vs : g.getVertices()) {
-                    if(vs.getInfo() == u) {
-                        v1 = vs;
-                        break;
-                    }
-                }
+                v1 = g.getElementVertice(u);
             }else {
                 vIntegers.add(u);
                 v1 = new Vertice(u);
@@ -34,12 +29,7 @@ public class App {
             }
 
             if(vIntegers.contains(v)) {
-                for(Vertice vs : g.getVertices()) {
-                    if(vs.getInfo() == v) {
-                        v2 = vs;
-                        break;
-                    }
-                }
+                v2 = g.getElementVertice(v);
             }else {
                 vIntegers.add(v);
                 v2 = new Vertice(v);
@@ -53,5 +43,7 @@ public class App {
         scanner.close();
 
         List<Aresta> arestas = new ArrayList<Aresta>();
+        g.Dijkstra("maior");
+        //g.Dijkstra("menor");
     }
 }

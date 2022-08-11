@@ -13,6 +13,10 @@ public class Aresta {
         return peso;
     }
 
+    public void setPeso(Integer peso) {
+        this.peso = peso;
+    }
+
     public Vertice getVertice1() {
         return vertice1;
     }
