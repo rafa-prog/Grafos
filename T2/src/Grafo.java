@@ -14,9 +14,7 @@ public class Grafo {
         this.vertices.add(vertice);
     }
 
-    public void resetVisited() {
-        for(Vertice v: this.vertices) {
-            v.setVisited(false);
-        }
+    public void Dijkstra(Grafo g, Integer w, List<Vertice> s) {
+        
     }
 }
