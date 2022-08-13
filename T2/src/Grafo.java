@@ -1,71 +1,75 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Grafo {
-    private List<Vertice> vertices = new ArrayList<Vertice>();
+
+    public class Subconjunto {
+        private Integer pai, valor;
+    }
 
     public Grafo() {}
 
-    public List<Vertice> getVertices() {
-        return vertices;
-    }
-
-    public Vertice getElementVertice(Integer valor) {
-        Vertice v = null;
-        for(Vertice vs : this.vertices) {
-            if(vs.getInfo() == valor) {
-                v = vs;
-                break;
-            }
+    public Integer Find(List<Subconjunto> subconjuntos, Integer k) {
+        
+        if(subconjuntos.get(k).pai == k) {
+            return subconjuntos.get(k).pai;
         }
 
-        return v;
+        return Find(subconjuntos, subconjuntos.get(k).pai);
     }
 
-    public Aresta extractMin(Vertice v) {
-        Aresta menor = v.getArestas().get(0);
+    public void Union(List<Subconjunto> subconjuntos, int u, int v) {
+        int nextU = Find(subconjuntos, u);
+        int nextV = Find(subconjuntos, v);
 
-        for(Aresta as : v.getArestas()) {
-            if(as.getPeso() <= menor.getPeso()) {
-                menor = as;
-            }
-            as.getVertice().setDistancia(v.getDistancia() + as.getPeso());
+        if(subconjuntos.get(nextU).valor < subconjuntos.get(nextV).valor) {
+            subconjuntos.get(nextU).pai = nextV;
+        }else if(subconjuntos.get(nextU).valor > subconjuntos.get(nextV).valor) {
+            subconjuntos.get(nextV).pai = nextU;
+        }else {
+            subconjuntos.get(nextV).pai = nextU;
+            subconjuntos.get(nextU).valor++;
+        }
+    }
+
+    public Integer MSTKruskal(List<Aresta> arestas, int vertices) {
+        Integer total = 0;
+        Integer i = 0;
+        Integer j = 0;
+
+        List<Aresta> arestasResult = arestas;
+
+        List<Subconjunto> subconjuntos = new ArrayList<Subconjunto>();
+
+        for(i = 0; i < vertices; i++) {
+            subconjuntos.add(new Subconjunto());
+        }
+        
+        for(i = 0; i < vertices; i++) {
+            subconjuntos.get(i).pai = i;
+            subconjuntos.get(i).valor = 0;
         }
 
-        menor.getVertice().setCor('p');
+        i = 0;
 
-        return menor;
-    }
-
-    public void addVertices(Vertice vertice) {
-        this.vertices.add(vertice);
-    }
-
-    public void Dijkstra(String RelaxType) {
-        this.vertices.get(0).setDistancia(0);
-        this.vertices.get(0).setCor('p');
-
-        List<Vertice> q = vertices;
-        List<Aresta> s = new ArrayList<Aresta>();
-
-        while(!q.isEmpty()) {
-            if(q.get(0).getCor() == 'b') {  
-                q.remove(0);
-                continue;
-            }
-
-            s.add(this.extractMin(q.get(0)));
-            q.get(0).setCor('p');
-
-            for(Aresta as : q.get(0).getArestas()) {
-                if(as.getVertice().getDistancia() > q.get(0).getDistancia() + as.getPeso()) {
-                    as.getVertice().setDistancia(q.get(0).getDistancia() + as.getPeso());
-                }
-            }
-
-            q.remove(0);
+        while (j < vertices - 1) {  
+            Aresta proxAresta;  
+            proxAresta = arestas.get(i++);  
+              
+            int nextU = Find(subconjuntos, proxAresta.getvIn());  
+            int nextV = Find(subconjuntos, proxAresta.getvOut());  
+            
+            if (nextU != nextV) {  
+                arestasResult.add(proxAresta);
+                total += proxAresta.getPeso();
+                Union(subconjuntos, nextU, nextV);
+                j++;
+            }  
         }
+        
+        
 
-        System.out.println("caminho menor: " + s.get(s.size() - 1).getVertice().getDistancia());
+        return total;
     }
 }

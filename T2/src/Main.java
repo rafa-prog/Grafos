@@ -1,48 +1,46 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
+        int n;
+
+        n = scanner.nextInt();
 
         Grafo g = new Grafo();
+        Aresta a;
 
-        List<Integer> vIntegers = new ArrayList<Integer>();
-
-        Integer n = scanner.nextInt();
+        List<Integer> iList = new ArrayList<Integer>(); 
+        List<Aresta> aList = new ArrayList<Aresta>();
 
         for (int i = 0; i < n; i++) {
             Integer u = scanner.nextInt();
             Integer v = scanner.nextInt();
             Integer w = scanner.nextInt();
 
-            Vertice v1 = null;
-            Vertice v2 = null;
-
-            if(vIntegers.contains(u)) {
-                v1 = g.getElementVertice(u);
-            }else {
-                vIntegers.add(u);
-                v1 = new Vertice(u);
-                g.addVertices(v1);
+            if(!iList.contains(u)) {
+                iList.add(u);
             }
 
-            if(vIntegers.contains(v)) {
-                v2 = g.getElementVertice(v);
-            }else {
-                vIntegers.add(v);
-                v2 = new Vertice(v);
-                g.addVertices(v2);
+            if(!iList.contains(v)) {
+                iList.add(v);
             }
 
-            v1.addArestas(new Aresta(v2, w));
-            v2.addArestas(new Aresta(v1, w));
+            a = new Aresta(w, u, v);
+            aList.add(a);
         }
 
         scanner.close();
-        
-        g.Dijkstra("maior");
-        //g.Dijkstra("menor");
+
+        Collections.sort(aList, new SortByPeso().reversed());
+
+        for(Aresta as: aList) {
+            System.out.println("Peso: " + as.getPeso() + ", v1: " + as.getvIn() + ", v2: " + as.getvOut());
+        }
+
+        g.MSTKruskal(aList, iList.size());
     }
 }
