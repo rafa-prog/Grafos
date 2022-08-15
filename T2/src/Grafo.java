@@ -1,74 +1,46 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class Grafo {
-
-    public class Subconjunto {
-        private Integer pai, valor;
-    }
+class Grafo {
 
     public Grafo() {}
 
-    public Integer Find(List<Subconjunto> subconjuntos, Integer k) {
-        
-        if(subconjuntos.get(k).pai == k) {
-            return subconjuntos.get(k).pai;
+    int Find(List<Integer> parente, int x) {
+        while(parente.get(x) != x) {
+            parente.set(x, parente.get(parente.get(x)));
+            x = parente.get(x);
         }
 
-        return Find(subconjuntos, subconjuntos.get(k).pai);
+        return x;
     }
 
-    public void Union(List<Subconjunto> subconjuntos, int u, int v) {
-        int nextU = Find(subconjuntos, u);
-        int nextV = Find(subconjuntos, v);
-
-        if(subconjuntos.get(nextU).valor < subconjuntos.get(nextV).valor) {
-            subconjuntos.get(nextU).pai = nextV;
-        }else if(subconjuntos.get(nextU).valor > subconjuntos.get(nextV).valor) {
-            subconjuntos.get(nextV).pai = nextU;
-        }else {
-            subconjuntos.get(nextV).pai = nextU;
-            subconjuntos.get(nextU).valor++;
-        }
+    public void Union(List<Integer> parente, int x, int y) {
+        Integer p = Find(parente, x);
+        Integer q = Find(parente, y);
+        parente.set(p, parente.get(q));
     }
 
     public Integer MSTKruskal(List<Aresta> arestas, int vertices) {
-        Integer total = 0;
-        Integer i = 0;
-        Integer j = 0;
+        Integer i, total = 0;
 
-        List<Aresta> arestasResult = arestas;
+        List<Integer> parente = new ArrayList<Integer>();
 
-        List<Subconjunto> subconjuntos = new ArrayList<Subconjunto>();
-
-        for(i = 0; i < vertices; i++) {
-            subconjuntos.add(new Subconjunto());
-        }
-        
-        for(i = 0; i < vertices; i++) {
-            subconjuntos.get(i).pai = i;
-            subconjuntos.get(i).valor = 0;
+        for(i = 0; i < arestas.size()+1; i++) {
+            parente.add(i);
         }
 
-        i = 0;
 
-        while (j < vertices - 1) {  
-            Aresta proxAresta;  
-            proxAresta = arestas.get(i++);  
-              
-            int nextU = Find(subconjuntos, proxAresta.getvIn());  
-            int nextV = Find(subconjuntos, proxAresta.getvOut());  
-            
-            if (nextU != nextV) {  
-                arestasResult.add(proxAresta);
-                total += proxAresta.getPeso();
-                Union(subconjuntos, nextU, nextV);
-                j++;
-            }  
+        for(i = 0; i < arestas.size(); ++i) {
+
+            Integer u = arestas.get(i).getvIn();
+            Integer v = arestas.get(i).getvOut();
+            Integer custo = arestas.get(i).getPeso();
+
+            if(Find(parente, u) != Find(parente, v)) {
+                total += custo;
+                Union(parente, u, v);
+            }
         }
-        
-        
 
         return total;
     }

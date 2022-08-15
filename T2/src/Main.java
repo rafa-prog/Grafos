@@ -35,12 +35,10 @@ public class Main {
 
         scanner.close();
 
+        Collections.sort(aList, new SortByPeso());
+        System.out.println(g.MSTKruskal(aList, iList.size()));
+
         Collections.sort(aList, new SortByPeso().reversed());
-
-        for(Aresta as: aList) {
-            System.out.println("Peso: " + as.getPeso() + ", v1: " + as.getvIn() + ", v2: " + as.getvOut());
-        }
-
-        g.MSTKruskal(aList, iList.size());
+        System.out.println(g.MSTKruskal(aList, iList.size()));
     }
 }
