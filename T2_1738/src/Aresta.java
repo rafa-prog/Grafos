@@ -1,10 +1,11 @@
-class Aresta {
-    private int vIn, vOut, peso;
+public class Aresta {
+    private Integer vIn, vOut;
+    private String empresas;
 
-    public Aresta(int peso, int vIn, int vOut) {
-        this.peso = peso;
+    public Aresta(int vIn, int vOut, String empresas) {
         this.vIn = vIn;
         this.vOut = vOut;
+        this.empresas = empresas;
     }
 
     public int getvIn() {
@@ -23,11 +24,11 @@ class Aresta {
         this.vOut = vOut;
     }
 
-    public int getPeso() {
-        return peso;
+    public String getEmpresas() {
+        return empresas;
     }
 
-    public void setPeso(int peso) {
-        this.peso = peso;
+    public void setEmpresas(String empresas) {
+        this.empresas = empresas;
     }
 }

@@ -1,22 +1,23 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
-        int n;
+        Integer t, n, m;
 
+        t = scanner.nextInt();
         n = scanner.nextInt();
+        m = scanner.nextInt();
 
-        Grafo g = new Grafo();
+        Grafo g = new Grafo(n, m);
         Aresta a;
 
         List<Integer> iList = new ArrayList<Integer>(); 
         List<Aresta> aList = new ArrayList<Aresta>();
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < t; i++) {
             Integer u = scanner.nextInt();
             Integer v = scanner.nextInt();
             Integer w = scanner.nextInt();
@@ -34,11 +35,17 @@ public class Main {
         }
 
         scanner.close();
+        
+        Integer k, p;
 
-        Collections.sort(aList, new SortByPeso());
-        System.out.println(g.MSTKruskal(aList, iList.size()));
+        k = scanner.nextInt();
+        p = scanner.nextInt();
 
-        Collections.sort(aList, new SortByPeso().reversed());
-        System.out.println(g.MSTKruskal(aList, iList.size()));
+        int kVet[] = new int[n];
+
+        for(int i = 0; i < k; i++) {
+            Integer kAux =  scanner.nextInt();
+            kVet[kAux - 1] = kAux;
+        }
     }
 }
