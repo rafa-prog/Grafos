@@ -1,27 +1,18 @@
 public class Aresta {
-    private Integer vIn, vOut;
-    private String empresas;
+    Integer v;
+    String empresas;
 
-    public Aresta(int vIn, int vOut, String empresas) {
-        this.vIn = vIn;
-        this.vOut = vOut;
+    Aresta(Integer v, String empresas) {
+        this.v = v;
         this.empresas = empresas;
     }
 
-    public int getvIn() {
-        return vIn;
+    public Integer getV() {
+        return v;
     }
 
-    public void setvIn(int vIn) {
-        this.vIn = vIn;
-    }
-
-    public int getvOut() {
-        return vOut;
-    }
-
-    public void setvOut(int vOut) {
-        this.vOut = vOut;
+    public void setV(Integer v) {
+        this.v = v;
     }
 
     public String getEmpresas() {

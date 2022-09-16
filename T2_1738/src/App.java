@@ -1,29 +1,44 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
-        Grafo g = new Grafo();
-
         Integer n = scanner.nextInt();
-
-        List<Integer> iList = new ArrayList<Integer>(); 
 
         while(n != 0) {
             Integer A, B;
             
-            Integer[][] mat = new Integer[n][n];
+            Aresta[][] mat = new Aresta[n][n];
 
-            resetMat(n, mat);
+            Grafo g = new Grafo(n, mat);
+
+            g.resetMat();
 
             A = scanner.nextInt();
             B = scanner.nextInt();
 
+            //k = 0
             while(A != 0 || B != 0) {
+                mat[A - 1][B - 1].setV(A);
+                mat[A - 1][B - 1].setEmpresas(scanner.nextLine().replace(" ", ""));
                 
+                A = scanner.nextInt();
+                B = scanner.nextInt();
+            }
+
+            g.ListMat();
+
+            g.FloydWarshall();
+
+            A = scanner.nextInt();
+            B = scanner.nextInt();
+
+            g.ListMat();
+
+            while(A != 0 || B != 0) {
+
+
 
                 A = scanner.nextInt();
                 B = scanner.nextInt();
@@ -33,18 +48,5 @@ public class App {
         }
 
         scanner.close();
-    }
-
-    public static Integer[][] resetMat(Integer n, Integer[][] mat) {
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
-                if(i == j) {
-                    mat[i][j] = 0;
-                }else if(i != j) {
-                    mat[i][j] = null;
-                }
-            }
-        }
-        return mat;
     }
 }
